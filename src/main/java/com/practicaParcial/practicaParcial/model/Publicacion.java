@@ -19,6 +19,8 @@ import java.util.List;
 @ToString
 @Data
 @Entity
+@Table(name = "publicaciones")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Publicacion {
     @Id
     @GeneratedValue

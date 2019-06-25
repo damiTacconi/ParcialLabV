@@ -10,6 +10,8 @@ import java.util.List;
 @ToString
 @Data
 @Entity
+@Table(name = "usuarios")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Usuario {
     @GeneratedValue
     @Id
@@ -25,7 +27,7 @@ public class Usuario {
     @OneToMany(fetch = FetchType.LAZY , cascade = CascadeType.ALL , mappedBy = "usuario")
     List<Publicacion> publicaciones;
 
-    @JsonIgnoreProperties("owner")
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "owner")
+    @JsonIgnoreProperties("usuario")
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "usuario")
     List<Comentario> comentarios;
 }

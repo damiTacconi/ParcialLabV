@@ -1,5 +1,7 @@
 package com.practicaParcial.practicaParcial.controller;
 
+import com.practicaParcial.practicaParcial.dto.CantidadComentarios;
+import com.practicaParcial.practicaParcial.interfaces.cantidadComentarios;
 import com.practicaParcial.practicaParcial.model.Publicacion;
 import com.practicaParcial.practicaParcial.model.Usuario;
 import com.practicaParcial.practicaParcial.repository.PublicacionJpaRepository;
@@ -20,7 +22,20 @@ public class PublicacionControladora {
     @Autowired
     private UsuarioJpaRepository usuarioJpaRepository;
 
-    @PostMapping("{id}/usuario")
+
+    @GetMapping("{id}/cantidadcomentarios")
+    public cantidadComentarios getCantidadComentarios(@PathVariable int id)
+    {
+        return this.publicacionJpaRepository.getCantidadComentarios(id);
+    }
+
+    @GetMapping("{id}/cantidadcomentarios2")
+    public CantidadComentarios getCantidadComentarios2(@PathVariable int id)
+    {
+        return this.publicacionJpaRepository.getCantidadComentarios2(id);
+    }
+
+    @PostMapping("{id_usuario}/usuario")
     public void save(@Valid @RequestBody final Publicacion publicacion, @PathVariable int id_usuario){
         Usuario usuario =this.findUsuarioById(id_usuario);
         publicacion.setUsuario(usuario);

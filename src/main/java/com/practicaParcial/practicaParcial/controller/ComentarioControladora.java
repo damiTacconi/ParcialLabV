@@ -28,11 +28,17 @@ public class ComentarioControladora {
     @Autowired
     private UsuarioJpaRepository usuarioJpaRepository;
 
-    @PostMapping("{id_publicacion}/publicacion/")
-    public void save(@Valid @RequestBody final Comentario comentario,
+    @PostMapping("{id_usuario}/{id_publicacion}/publicacion")
+    public void save(
+            @PathVariable int id_usuario,
+            @Valid @RequestBody final Comentario comentario,
                      @PathVariable int id_publicacion){
+
+        Usuario usuario = usuarioJpaRepository.findById(id_usuario).orElseThrow(() ->
+                new HttpClientErrorException(HttpStatus.BAD_REQUEST,"NO SE ENCONTRO EL ID"));
         Publicacion publicacion = this.findPublicacionById(id_publicacion);
-        comentario.setOwner(publicacion.getUsuario());
+        comentario.setUsuario(usuario);
+        publicacion.getComentarios().add(comentario);
         comentario.setPublicacion(publicacion);
         this.comentarioJpaRepository.save(comentario);
     }
@@ -43,7 +49,7 @@ public class ComentarioControladora {
     }
 
 
-    @DeleteMapping("{id}/delete")
+    @DeleteMapping("{id}")
     public void delete(@PathVariable int id){
         Comentario comentario = this.findById(id);
         this.comentarioJpaRepository.delete(comentario);
